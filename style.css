@@ -1,0 +1,288 @@
+/* ======================================================
+   RESET & VARIABLES
+====================================================== */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --item-height: 100px; /* Altura base de cada ícono */
+}
+
+/* ======================================================
+   ESTILOS GENERALES
+====================================================== */
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at center, #fd9b03 60%, #c56b00 100%);
+  background-image: url("./imagenes/ChatGPT\ Image\ 24\ abr\ 2025\,\ 18_55_35.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: sans-serif;
+}
+
+.slot-machine-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* ======================================================
+   CONTENEDOR PRINCIPAL DE LA SLOT MACHINE
+====================================================== */
+#container {
+  background: radial-gradient(circle at center, #b37922 60%, #c38a2a 100%);
+  padding: 50px;
+  border: 8px solid #996416;;
+  border-radius: 30px;
+  box-shadow: 
+    0 0 20px #ffd700,
+    0 0 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  width: 600px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-clip: padding-box;
+}
+
+/* ======================================================
+   VENTANA DONDE SE MUESTRAN LOS ÍCONOS
+====================================================== */
+.window {
+  position: relative;
+  overflow: hidden;
+  height: calc(3 * var(--item-height)); /* Altura para mostrar 3 íconos */
+}
+
+/* Sombras para los bordes superior e inferior de la ventana */
+.window::before,
+.window::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 6px;
+}
+
+.window::before {
+  top: 0;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
+}
+
+.window::after {
+  bottom: 0;
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+}
+
+
+
+/* ======================================================
+   COLUMNA DE ÍCONOS
+====================================================== */
+.outer-col {
+  overflow-y: hidden;
+  width: 100px;
+  float: left;
+  height: calc(var(--item-height) * 3);
+  background-image: linear-gradient(#16013c, #741a5e, #430155, #16013c);
+}
+
+.outer-spacer {
+  width: 8px;
+  height: 100%;
+  float: left;
+  border-right: 2px solid #f7ce6c38;
+  background-image: linear-gradient(#be4d01, #893802);
+}
+
+.col {
+  padding: 0 10px;
+  will-change: transform;
+  transform: translateY(calc(-100% + var(--item-height) * 3)); /* posición inicial */
+}
+
+.col img {
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  position: relative;
+  z-index: 3;
+}
+
+/* Efecto de sombra circular en cada ícono */
+.col .icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  background-color: white;
+  box-shadow: 0 0 35px 30px rgba(12, 0, 14, 0.69);
+  z-index: 2;
+  border-radius: 100%;
+}
+
+/* ======================================================
+   ANIMACIÓN DE GIRO
+====================================================== */
+
+/* Retrasos para que las columnas giren en cascada */
+#container.spinning .outer-col:nth-of-type(2) .col {
+  animation-delay: 0.01s;
+}
+
+#container.spinning .outer-col:nth-of-type(3) .col {
+  animation-delay: 0.02s;
+}
+
+#container.spinning .outer-col:nth-of-type(4) .col {
+  animation-delay: 0.03s;
+}
+
+#container.spinning .col {
+  animation-name: scroll;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(.65, .97, .72, 1);
+}
+
+@keyframes scroll {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ======================================================
+   PALANCA DE LA SLOT MACHINE
+====================================================== */
+.lever-wrapper {
+  top: 50%;
+  right: 250px; /* posición respecto al #container */
+  transform: translateY(-50%) rotate(334deg);
+  width: 120px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.lever-stick {
+  width: 180px;
+  height: 20px;
+  background: radial-gradient(circle at center, #fd9b03 60%, #c56b00 100%);
+}
+
+.lever-knob {
+  width: 80px;
+  height: 40px;
+  background: #41ff03;
+  border-radius: 50%;
+  margin-left: 0.2px;
+}
+
+/* Animación al tirar la palanca */
+.lever-wrapper.pulled {
+  animation: pullAndReturnHorizontal 0.6s ease;
+}
+
+@keyframes pullAndReturnHorizontal {
+  0%   { transform: translateY(-50%) rotate(334deg); }
+  50%  { transform: translateY(-50%) rotate(365deg); }
+  75%  { transform: translateY(-50%) rotate(340deg); }
+  100% { transform: translateY(-50%) rotate(334deg); }
+}
+
+/* ======================================================
+   OCULTAR BOTÓN ORIGINAL (se simula con la palanca)
+====================================================== */
+.start-button {
+  width: 80px;
+  height: 80px;
+  background-color: #c78f2d;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+  margin-left: 30px;
+}
+
+.start-button:disabled {
+  background-color: #a17220;
+  cursor: not-allowed;
+  transform: scale(0.95);
+}
+
+
+.win-message {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background-color: #fff;
+  color: #111;
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  font-size: 24px;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 9999;
+  text-align: center;
+}
+
+.win-message.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.win-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(135deg, #fff9d0, #ffd700);
+  color: #5c3600;
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.5);
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 9999;
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  text-align: center;
+  border: 3px solid #fff;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.win-message.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  }
+}

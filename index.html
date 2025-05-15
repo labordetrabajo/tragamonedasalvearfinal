@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tragamonedas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="slot-machine-wrapper">
+    
+    <div id="container">
+      <div class="window-border">
+        <div class="window">
+          <div class="outer-spacer"></div>
+          <div class="outer-col"><div class="col"></div></div>
+          <div class="outer-spacer"></div>
+          <div class="outer-col"><div class="col"></div></div>
+          <div class="outer-spacer"></div>
+          <div class="outer-col"><div class="col"></div></div>
+          <div class="outer-spacer"></div>
+        </div>
+      </div>
+
+   
+      <!-- Botón oculto para activar con JS -->
+      <input type="button" onclick="spin(this)" class="start-button" value="GIRAR"/>
+    </div>
+       <!-- Palanca metida dentro del container -->
+
+
+
+  </div>
+     <!-- Audio para el sonido de la máquina girando -->
+  <audio id="spin-sound" src="./sonidos/sonidodefirosimple2.mp3"></audio>
+
+  <!-- Audio para el sonido de cuando aparece un premio -->
+  <audio id="win-sound" src="./sonidos/victoria2.mp3"></audio>
+</body>
+</html>
